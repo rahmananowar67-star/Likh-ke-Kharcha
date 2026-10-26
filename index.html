@@ -2,65 +2,70 @@
 <html lang="hi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#0f766e">
 <meta name="description" content="Bas likho: chai 20, auto 80, dal 60. Baaki sab app kar dega.">
 <title>Likh ke Kharcha</title>
 <style>
   :root{
-    --bg:#f6f7f5; --card:#ffffff; --text:#1c1f1d; --muted:#6b726e;
-    --accent:#0f766e; --accent-ink:#ffffff; --line:#e3e7e4; --danger:#c0392b;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#101312; --card:#181c1b; --text:#eef1ef; --muted:#9aa39e; --accent:#2dd4bf; --accent-ink:#06201c; --line:#262c2a; --danger:#ff7b6b; }
+    --bg:#0f1110; --card:#181c1b; --text:#f3f4f6; --muted:#9ca3af;
+    --accent:#2dd4bf; --accent-ink:#042f2e; --line:#27272a; --danger:#ef4444;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;line-height:1.4}
-  .wrap{max-width:560px;margin:0 auto;padding:16px}
-  h1{font-size:20px;margin:4px 0 2px}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-  textarea{width:100%;min-height:76px;resize:vertical;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:10px;padding:10px;font:inherit;font-size:16px}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;line-height:1.4;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+  .app-container{max-width:480px;width:100%;margin:0 auto;display:flex;flex-direction:column;flex:1;padding:14px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 14px}
+  h1{font-size:20px;margin:0;display:flex;align-items:center;gap:8px}
+  .sub{color:var(--muted);font-size:13px;margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
+  textarea{width:100%;min-height:80px;resize:none;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;padding:12px;font:inherit;font-size:16px}
   textarea:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
   .row{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:600;cursor:pointer}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500;padding:8px 12px;font-size:14px}
-  .hint{font-size:13px;color:var(--muted);margin:8px 0 0}
-  .tabs{display:flex;gap:6px;margin-bottom:10px}
-  .tab{flex:1;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:8px;font:inherit;font-size:14px;cursor:pointer}
+  .btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:600;cursor:pointer;width:100%;text-align:center;transition:opacity 0.2s}
+  .btn:active{opacity:0.8}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500;padding:10px 14px;font-size:13px;flex:1}
+  .hint{font-size:12px;color:var(--muted);margin:8px 0 0}
+  .tabs{display:flex;gap:6px;margin-bottom:12px}
+  .tab{flex:1;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:10px;font:inherit;font-size:14px;cursor:pointer;font-weight:500;text-align:center}
   .tab[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
-  .total{font-size:34px;font-weight:700;letter-spacing:-.5px}
-  .total small{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:6px}
+  .total-box{display:flex;justify-content:space-between;align-items:baseline}
+  .total{font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--accent)}
+  .total small{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:6px}
   .bar{margin-top:10px}
-  .bar .top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:3px}
-  .track{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
+  .bar .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;color:var(--muted)}
+  .track{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
   .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .3s}
+  .list-container{flex:1;overflow-y:auto;max-height:260px;padding-right:2px}
   .item{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
   .item:first-child{border-top:0}
-  .item .ico{font-size:20px;width:28px;text-align:center}
+  .item .ico{font-size:22px;width:32px;text-align:center;background:var(--bg);border-radius:10px;padding:4px}
   .item .mid{flex:1;min-width:0}
-  .item .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .item select{border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;padding:0;max-width:100%}
-  .item .amt{font-weight:700;white-space:nowrap}
-  .x{background:transparent;border:0;color:var(--muted);font-size:18px;cursor:pointer;padding:4px 8px}
-  .x:hover{color:var(--danger)}
-  .empty{color:var(--muted);text-align:center;padding:18px 0;font-size:15px}
-  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%}
+  .item .nm{font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item select{border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;padding:0;max-width:100%;cursor:pointer}
+  .item .amt{font-weight:700;font-size:15px;white-space:nowrap;color:var(--text)}
+  .x{background:transparent;border:0;color:var(--muted);font-size:16px;cursor:pointer;padding:6px;border-radius:8px}
+  .x:hover{color:var(--danger);background:rgba(239,68,68,0.1)}
+  .empty{color:var(--muted);text-align:center;padding:24px 0;font-size:14px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;font-weight:500;box-shadow:0 10px 15px -3px rgba(0,0,0,0.3)}
   .toast.show{opacity:1}
-  footer{text-align:center;color:var(--muted);font-size:12px;margin:18px 0 6px}
+  footer{text-align:center;color:var(--muted);font-size:11px;margin:auto 0 8px;padding-top:12px}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>💸 Likh ke Kharcha</h1>
-  <p class="sub">Bas likho, baaki app karega.</p>
+<div class="app-container">
+  <header>
+    <div>
+      <h1>💸 Likh ke Kharcha</h1>
+      <p class="sub">Bas likho, baaki app karega.</p>
+    </div>
+  </header>
 
   <div class="card">
     <textarea id="inp" placeholder="chai 20, auto 80, dal 60" aria-label="Kharcha likho"></textarea>
-    <div class="row" style="margin-top:8px">
-      <button class="btn" id="add" style="flex:1">Jodo ➕</button>
+    <div style="margin-top:10px">
+      <button class="btn" id="add">Jodo ➕</button>
     </div>
-    <p class="hint">Comma, "aur" ya nayi line se alag karo. Jaise: <b>samosa 15, petrol 500 aur kirana 340</b></p>
+    <p class="hint">Comma, "aur" ya nayi line se likho. Jaise: <b>samosa 15, petrol 500 aur kirana 340</b></p>
   </div>
 
   <div class="tabs" role="group" aria-label="Samay chuno">
@@ -70,20 +75,25 @@
   </div>
 
   <div class="card">
-    <div class="total"><span id="tot">₹0</span><small id="cnt"></small></div>
+    <div class="total-box">
+      <div class="total"><span id="tot">₹0</span></div>
+      <div id="cnt" style="font-size:13px; color:var(--muted);"></div>
+    </div>
     <div id="bars"></div>
   </div>
 
-  <div class="card">
-    <div id="list"></div>
+  <div class="card" style="margin-bottom:8px">
+    <div class="list-container" id="list"></div>
   </div>
 
-  <div class="row" style="justify-content:space-between">
-    <button class="btn ghost" id="csv">⬇️ CSV export</button>
+  <div class="row" style="margin-bottom:8px">
+    <button class="btn ghost" id="csv">⬇️ Export CSV</button>
     <button class="btn ghost" id="clr">🗑️ Sab mitao</button>
   </div>
-  <footer>Aapka data sirf aapke phone/browser mein save hota hai.</footer>
+
+  <footer>Aapka data sirf aapke browser mein secure rehta hai[span_2](start_span)[span_2](end_span).</footer>
 </div>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -161,7 +171,7 @@
     var view = items.filter(inRange).sort(function(a,b){ return b.ts-a.ts; });
     var total = view.reduce(function(s,i){ return s+i.amt; },0);
     document.getElementById("tot").textContent = money(total);
-    document.getElementById("cnt").textContent = view.length ? view.length+" kharche" : "";
+    document.getElementById("cnt").textContent = view.length ? view.length+" items" : "";
 
     var sums = {};
     view.forEach(function(i){ sums[i.cat] = (sums[i.cat]||0)+i.amt; });
@@ -173,7 +183,7 @@
         var b = el("div","bar");
         var top = el("div","top");
         top.appendChild(el("span",null,CATS[c].i+" "+c));
-        top.appendChild(el("span",null,money(sums[c])+" · "+Math.round(sums[c]/total*100)+"%"));
+        top.appendChild(el("span",null,money(sums[c])+" ("+Math.round(sums[c]/total*100)+"%)"));
         var tr = el("div","track"); var f = el("div","fill");
         f.style.width = Math.round(sums[c]/total*100)+"%";
         tr.appendChild(f); b.appendChild(top); b.appendChild(tr); bars.appendChild(b);
@@ -198,7 +208,7 @@
       sel.addEventListener("change", function(){ it.cat = sel.value; save(); render(); });
       var dt = it.date.split("-").reverse().slice(0,2).join("/");
       mid.appendChild(nm);
-      var sub = el("div"); sub.style.fontSize="13px"; sub.style.color="var(--muted)";
+      var sub = el("div"); sub.style.fontSize="12px"; sub.style.color="var(--muted)";
       sub.appendChild(sel); sub.appendChild(document.createTextNode(" · "+dt));
       mid.appendChild(sub);
       row.appendChild(mid);
@@ -248,7 +258,7 @@
   });
   document.getElementById("clr").addEventListener("click", function(){
     if(!items.length) return;
-    if(confirm("Pakka sab kharche mita dein? Ye wapas nahi aayenge.")){ items = []; save(); render(); toast("Sab saaf"); }
+    if(confirm("Pakka sab kharche mita dein?")){ items = []; save(); render(); toast("Sab saaf"); }
   });
 
   load(); render();
